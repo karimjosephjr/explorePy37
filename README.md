@@ -1,6 +1,6 @@
 # explorePy37
 A review / re-exploration of Python
-##Getting Started
+## Getting Started
 Maintain python environment and package dependencies with conda.
 
 To get started:
