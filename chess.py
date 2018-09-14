@@ -1,5 +1,5 @@
 from colorama import init
-from colorama import Fore, Back, Style
+from colorama import Back, Style
 init()
 
 
@@ -12,33 +12,54 @@ class Board:
                 self.board[y].append(Space(x, y))
 
     def __str__(self):
-        board_array = [[str(Back.WHITE + Fore.BLACK + ' K ' if x.color == "white"
-                            else Back.BLACK + ' K ') for x in y] for y in self.board]
+        board_array = [[str(x) for x in y] for y in self.board]
         board_array2 = []
         for y in board_array:
             board_array2.append(''.join(y) + Style.RESET_ALL)
         return Back.BLACK + '\n'.join(board_array2)
 
-    def get_space(self, x, y):
-        return self.board[y][x]
+    def update_board(self, start, end):
+        self.board[end[1]][end[0]].piece = self.board[start[1]][start[0]].piece
+        self.board[start[1]][start[0]].piece = None
 
 
 class Space:
     def __init__(self, x, y):
-        self.x = x
-        self.y = y
-        self.color = None
+        self.position = (x, y)
         self.piece = None
-        if (self.x + 2) % 2 == 0 and (self.y + 2) % 2 == 0:
-            self.color = "white"
-        elif (self.x + 2) % 2 != 0 and (self.y + 2) % 2 != 0:
-            self.color = "white"
+        self.whiteIsThreatened = None
+        self.blackIsThreatened = None
+        self.color = None
+        if (x + 2) % 2 == 0 and (y + 2) % 2 == 0:
+            self.color = Back.WHITE
+        elif (x + 2) % 2 != 0 and (y + 2) % 2 != 0:
+            self.color = Back.WHITE
         else:
-            self.color = "black"
+            self.color = Back.BLACK
 
     def __str__(self):
-        return self.color
+        if self.piece:
+            return self.color + self.piece
+        else:
+            return self.color + '   '
 
 
+# test cases
 some_board = Board()
+print(some_board)
+print("\n\n\n")
+
+some_board.board[1][0].piece = Style.BRIGHT + " K "
+print(some_board)
+print("\n\n\n")
+
+some_board.update_board((0, 1), (1, 0))
+print(some_board)
+print("\n\n\n")
+
+some_board.update_board((1, 0), (6, 7))
+print(some_board)
+print("\n\n\n")
+
+some_board.update_board((6, 7), (6, 6))
 print(some_board)
