@@ -5,11 +5,25 @@ init()
 
 class Board:
     def __init__(self):
-        self.board = []
+        self.board = self.make_board()
+        self.grid = self.make_grid()
+
+    @staticmethod
+    def make_board():
+        board = []
         for y in range(8):
-            self.board.append([])
+            board.append([])
             for x in range(8):
-                self.board[y].append(Space(x, y))
+                board[y].append(Space(x, y))
+        return board
+
+    @staticmethod
+    def make_grid():
+        grid = {}
+        for coord_2, letter in enumerate(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']):
+            for coord_1, num in enumerate(range(7, -1, -1)):
+                grid[f'{letter}{num}'] = (coord_1, coord_2)
+        return grid
 
     def __str__(self):
         board_array = [[str(x) for x in y] for y in self.board]
@@ -46,20 +60,24 @@ class Space:
 
 # test cases
 some_board = Board()
-print(some_board)
-print("\n\n\n")
-
-some_board.board[1][0].piece = Style.BRIGHT + " K "
-print(some_board)
-print("\n\n\n")
-
-some_board.update_board((0, 1), (1, 0))
-print(some_board)
-print("\n\n\n")
-
-some_board.update_board((1, 0), (6, 7))
-print(some_board)
-print("\n\n\n")
-
-some_board.update_board((6, 7), (6, 6))
-print(some_board)
+print(some_board.grid)
+# print(some_board)
+# print("\n\n\n")
+#
+# some_board.board[1][0].piece = Style.BRIGHT + " K "
+# print(some_board)
+# print("\n\n\n")
+#
+# some_board.update_board((0, 1), (0, 7))
+# print(some_board)
+# print("\n\n\n")
+#
+# some_board.update_board((1, 0), (6, 7))
+# print(some_board)
+# print("\n\n\n")
+#
+# some_board.update_board((6, 7), (6, 6))
+# print(some_board)
+#
+#
+# (3, 5)
