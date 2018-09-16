@@ -8,6 +8,9 @@ class Board:
         self.board = self.make_board()
         self.grid = self.make_grid()
 
+    def __str__(self):
+        return self.board_str()
+
     @staticmethod
     def make_board():
         board = []
@@ -33,12 +36,14 @@ class Board:
             array_of_str_spaces.append(str(label) + ' ' + ''.join(array_of_array_of_str_spaces[row]) + Style.RESET_ALL)
         return ''.join(letters) + '\n'.join(array_of_str_spaces)
 
-    def __str__(self):
-        return self.board_str()
-
     def update_board(self, start, end):
-        self.board[end[0]][end[0]].piece = self.board[start[0]][start[1]].piece
+        self.board[end[0]][end[1]].piece = self.board[start[0]][start[1]].piece
         self.board[start[0]][start[1]].piece = None
+
+    def get_coords(self, coords_str):
+        coords_str = str(coords_str).lower()
+        coords_tuple = self.grid.get(coords_str, None)
+        return coords_tuple
 
 
 class Space:
@@ -48,6 +53,9 @@ class Space:
         self.whiteIsThreatened = None
         self.blackIsThreatened = None
         self.color = self.set_space_color(x, y)
+
+    def __str__(self):
+        return self.space_str()
 
     @staticmethod
     def set_space_color(x, y):
@@ -59,33 +67,24 @@ class Space:
             color = Back.BLACK
         return color
 
-    def __str__(self):
+    def space_str(self):
         if self.piece:
-            return self.color + str(self.piece)
+            result = self.color + str(self.piece)
         else:
-            return self.color + '   '
+            result = self.color + '   '
+        return result
 
 
 # test cases
 some_board = Board()
 print(some_board.grid)
+print("\n\n\n")
+
+some_board.board[1][0].piece = Style.BRIGHT + " K "
 print(some_board)
-# print("\n\n\n")
-#
-# some_board.board[1][0].piece = Style.BRIGHT + " K "
-# print(some_board)
-# print("\n\n\n")
-#
-# some_board.update_board((0, 1), (0, 7))
-# print(some_board)
-# print("\n\n\n")
-#
-# some_board.update_board((1, 0), (6, 7))
-# print(some_board)
-# print("\n\n\n")
-#
-# some_board.update_board((6, 7), (6, 6))
-# print(some_board)
-#
-#
-# (3, 5)
+print("\n\n\n")
+
+a7 = some_board.get_coords('a7')
+f2 = some_board.get_coords('f2')
+some_board.update_board(a7, f2)
+print(some_board)
