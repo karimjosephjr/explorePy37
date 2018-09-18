@@ -80,19 +80,23 @@ class Space:
 
 # test cases
 some_board = Board()
-print(some_board.grid)
-print("\n\n\n")
-
-some_board.board[1][0].piece = King()
+some_board.board[3][3].piece = King()
+some_board.board[3][4].piece = King()
+some_board.board[4][3].piece = King(color="black")
+some_board.board[4][4].piece = King(color="black")
 print(some_board)
 print("\n\n\n")
 
-a7 = some_board.get_coords('a7')
-f2 = some_board.get_coords('f2')
-some_board.update_board(a7, f2)
+some_board.update_board(some_board.get_coords('d5'), some_board.get_coords('c6'))
+some_board.update_board(some_board.get_coords('e5'), some_board.get_coords('f6'))
+some_board.update_board(some_board.get_coords('d4'), some_board.get_coords('c3'))
+some_board.update_board(some_board.get_coords('e4'), some_board.get_coords('f3'))
 print(some_board)
+print("\n\n\n")
 
 player1 = Player()
 
 player1.make_a_move(some_board)
+print("\n\n\n")
+
 print(some_board)
