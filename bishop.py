@@ -5,7 +5,7 @@ init()
 
 class Bishop:
 
-    def __init(self, color="White"):
+    def __init__(self, color="White"):
         self.color = color
 
     def __str__(self):
