@@ -1,4 +1,5 @@
 from king import King
+from bishop import Bishop
 from player import Player
 
 from colorama import init
@@ -83,16 +84,17 @@ some_board = Board()
 print(some_board.grid)
 print("\n\n\n")
 
-some_board.board[1][0].piece = King()
+some_board.board[3][3].piece = Bishop()
 print(some_board)
 print("\n\n\n")
 
-a7 = some_board.get_coords('a7')
-f2 = some_board.get_coords('f2')
-some_board.update_board(a7, f2)
-print(some_board)
-
-player1 = Player()
-
-player1.make_a_move(some_board)
-print(some_board)
+print(some_board.board[3][3].piece.move_options((3, 3)))
+# a7 = some_board.get_coords('a7')
+# f2 = some_board.get_coords('f2')
+# some_board.update_board(a7, f2)
+# print(some_board)
+#
+# player1 = Player()
+#
+# player1.make_a_move(some_board)
+# print(some_board)
