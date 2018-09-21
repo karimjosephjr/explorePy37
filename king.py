@@ -1,12 +1,21 @@
 #Define King class
 
+from colorama import init
+from colorama import Fore, Style
+init()
+
+
 class King:
 
-    def __init(self, color="White"):
+    def __init__(self, color="White"):
         self.color = color
 
     def __str__(self):
-        return ' K '
+        if self.color.lower()[0] == "w":
+            piece_color = Fore.WHITE + Style.BRIGHT
+        else:
+            piece_color = Fore.BLUE + Style.BRIGHT
+        return piece_color + ' K ' + Style.RESET_ALL
 
     def move_options(self,position):
         '''
