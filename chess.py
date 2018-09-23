@@ -1,5 +1,7 @@
 from king import King
 from bishop import Bishop
+from knight import Knight
+from rook import Rook
 from player import Player
 
 from colorama import init
