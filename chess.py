@@ -91,6 +91,17 @@ thing2 = King(color='white')
 print(thing1.check_direction((3, 3), (1, 1)))
 print("\n\n\n")
 
+#Knight and Rook tests
+some_board.board[7][1].piece = Knight()
+some_board.board[7][0].piece = Rook()
+player1 = Player()
+print(some_board)
+print("\n\n\n")
+while not some_board.board[0][0].piece:
+    player1.make_a_move(some_board)
+    print(some_board)
+    print("\n\n\n")
+
 # print(some_board.board[3][3].piece.move_options((3, 3)))
 # a7 = some_board.get_coords('a7')
 # f2 = some_board.get_coords('f2')
