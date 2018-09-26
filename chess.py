@@ -13,6 +13,7 @@ class Board:
     def __init__(self):
         self.board = self.make_board()
         self.grid = self.make_grid()
+        self.inverted_grid = self.invert_grid()
 
     def __str__(self):
         return self.board_str()
@@ -32,6 +33,12 @@ class Board:
         for coord_2, letter in enumerate(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']):
             for coord_1, num in enumerate(range(8, 0, -1)):
                 grid[f'{letter}{num}'] = (coord_1, coord_2)
+        return grid
+
+    def invert_grid(self):
+        grid = {}
+        for k, v in self.grid.items():
+            grid[v] = k
         return grid
 
     def board_str(self):
@@ -101,6 +108,11 @@ while not some_board.board[0][0].piece:
     player1.make_a_move(some_board)
     print(some_board)
     print("\n\n\n")
+
+#Piece pretty print test
+# print(some_board.inverted_grid)
+# print(Player.print_move_options((7, 1), some_board))
+
 
 # print(some_board.board[3][3].piece.move_options((3, 3)))
 # a7 = some_board.get_coords('a7')

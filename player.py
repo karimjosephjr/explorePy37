@@ -31,6 +31,13 @@ class Player:
             
         board.update_board(piece_tup,move_choice)
 
+    @staticmethod
+    def print_move_options(position, board):
+        piece = board.board[position[0]][position[1]].piece
+        tuple_options = piece.move_options(position)
+        pretty_options = [board.inverted_grid[position] for position in tuple_options]
+        return "\n".join(pretty_options)
+
 
 # Help visualize board:
 # [
