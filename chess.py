@@ -2,6 +2,7 @@ from king import King
 from bishop import Bishop
 from knight import Knight
 from rook import Rook
+from queen import Queen
 from player import Player
 
 from colorama import init
@@ -94,6 +95,7 @@ print("\n\n\n")
 #Knight and Rook tests
 some_board.board[7][1].piece = Knight()
 some_board.board[7][0].piece = Rook()
+some_board.board[3][4].piece = Queen()
 player1 = Player()
 print(some_board)
 print("\n\n\n")
