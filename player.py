@@ -6,7 +6,7 @@ class Player:
         self.name = name
         self.color = color
     
-    def make_a_move(self,board):
+    def make_a_move(self, board):
         '''
         Prompt the player to select a piece that they wish to move by providing the space that piece occupies
         Then prompt the player to select where they would like to move that piece to
@@ -23,7 +23,7 @@ class Player:
             if piece_tup != None and board.board[piece_tup[0]][piece_tup[1]].piece != None:
                 valid_piece = board.board[piece_tup[0]][piece_tup[1]].piece
                 
-        valid_moves = valid_piece.move_options(piece_tup)
+        valid_moves = valid_piece.move_options(piece_tup, board)
         move_choice = None
         while move_choice not in valid_moves:
             potential_move = input("Select the space that you would like to move your piece to: ")
@@ -36,7 +36,7 @@ class Player:
     @staticmethod
     def print_move_options(position, board):
         piece = board.board[position[0]][position[1]].piece
-        tuple_options = piece.move_options(position)
+        tuple_options = piece.move_options(position, board)
         pretty_options = [board.inverted_grid[position] for position in tuple_options]
         return "\n".join(pretty_options)
 
