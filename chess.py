@@ -36,10 +36,10 @@ class Board:
         return grid
 
     def invert_grid(self):
-        grid = {}
+        inverted_grid = {}
         for k, v in self.grid.items():
-            grid[v] = k
-        return grid
+            inverted_grid[v] = k
+        return inverted_grid
 
     def board_str(self):
         letters = ['  ', ' a ', ' b ', ' c ', ' d ', ' e ', ' f ', ' g ', ' h ', '\n']
@@ -109,7 +109,7 @@ while not some_board.board[0][0].piece:
     print(some_board)
     print("\n\n\n")
 
-#Piece pretty print test
+# Piece pretty print test
 # print(some_board.inverted_grid)
 # print(Player.print_move_options((7, 1), some_board))
 
