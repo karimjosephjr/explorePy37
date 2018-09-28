@@ -27,9 +27,18 @@ class Player:
         move_choice = None
         while move_choice not in valid_moves:
             potential_move = input("Select the space that you would like to move your piece to: ")
+            if potential_move == "help":
+                print(self.print_move_options(piece_tup, board))
             move_choice = board.get_coords(potential_move)
             
         board.update_board(piece_tup,move_choice)
+
+    @staticmethod
+    def print_move_options(position, board):
+        piece = board.board[position[0]][position[1]].piece
+        tuple_options = piece.move_options(position)
+        pretty_options = [board.inverted_grid[position] for position in tuple_options]
+        return "\n".join(pretty_options)
 
 
 # Help visualize board:
