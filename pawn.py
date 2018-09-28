@@ -30,33 +30,45 @@ class Pawn:
         if self.color.lower()[0] == "w":
             color_mod = -1
         else:
-            color_mod = 1        
-        possible_moves = [(a + color_mod, b), (a + (2 * color_mod), b), (a + color_mod, b - 1), (a + color_mod, b + 1)]
+            color_mod = 1
+        single_move = (a + color_mod, b)
+        double_move = (a + (2 * color_mod), b)
+        capture_left = (a + color_mod, b - 1)
+        capture_right = (a + color_mod, b + 1)
+        move_list = [single_move, double_move, capture_left, capture_right]
+        valid_range = list(range(8))
+        possible_moves = []
         valid_moves = []
-        
+ 
         #single_move   - (a + color_mod, b)       The default move
         #double_move   - (a + (2 * color_mod), b) Only legal when self.has_moved = False
         #capture_left  - (a + color_mod, b - 1)   Only legal when the destination space is occupied by a non-king piece of the opposite color
         #capture_right - (a + color_mod, b + 1)   Only legal when the destination space is occupied by a non-king piece of the opposite color
         
+        #limit move_list to only check for moves that fit on the board
+        for move in move_list:
+            if move[0] in valid_range and move[1] in valid_range:
+                possible_moves.append(move)        
+        
         #single_move
-        if not board.board[possible_moves[0][0]][possible_moves[0][1]].piece:
-            valid_moves.append(possible_moves[0])
+        if single_move in possible_moves:
+            if not board.board[single_move[0]][single_move[1]].piece:
+                valid_moves.append(single_move)
         #double_move
-        if not self.has_moved:
-            if not board.board[possible_moves[0][0]][possible_moves[0][1]].piece and not board.board[possible_moves[1][0]][possible_moves[1][1]].piece:
-                valid_moves.append(possible_moves[1])
-        #captures
-        for i in possible_moves[2:]:
-            if board.board[possible_moves[i][0]][possible_moves[i][1]].piece and board.board[possible_moves[i][0]][possible_moves[i][1]].piece.color != self.color:
-                valid_moves.append(possible_moves[i])
+        if double_move in possible_moves and single_move in valid_moves:
+            if not self.has_moved:
+                if not board.board[double_move[0]][double_move[1]].piece:
+                    valid_moves.append(double_move)
+        #capture_left
+        if capture_left in possible_moves:
+            if board.board[capture_left[0]][capture_left[1]].piece and board.board[capture_left[0]][capture_left[1]].piece.color != self.color:
+                valid_moves.append(capture_left)
+        #capture_right
+        if capture_right in possible_moves:
+            if board.board[capture_right[0]][capture_right[1]].piece and board.board[capture_right[0]][capture_right[1]].piece.color != self.color:
+                valid_moves.append(capture_right)        
         
-        valid_range = list(range(8))
         #legal_moves = []
-        
-        for (x,y) in possible_moves:
-            if x in valid_range and y in valid_range:
-                valid_moves.append((x,y))
 
         #for space in valid_moves:
         #    if occupied_check(space):
