@@ -96,13 +96,18 @@ print("\n\n\n")
 
 thing1 = Bishop(color='white')
 thing2 = King(color='white')
-print(thing1.check_direction((3, 3), (1, 1)))
+print(thing1.check_direction((3, 3), (1, 1), some_board))
 print("\n\n\n")
 
 #Knight and Rook tests
 some_board.board[7][1].piece = Knight()
 some_board.board[7][0].piece = Rook()
 some_board.board[3][4].piece = Queen()
+some_board.board[4][3].piece = Queen(color='black')
+some_board.board[2][3].piece = Queen(color='black')
+some_board.board[4][5].piece = Queen(color='black')
+some_board.board[2][5].piece = Queen(color='black')
+
 player1 = Player()
 print(some_board)
 print("\n\n\n")

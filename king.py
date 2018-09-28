@@ -1,5 +1,3 @@
-#Define King class
-
 from colorama import init
 from colorama import Fore, Style
 init()
@@ -8,7 +6,7 @@ init()
 class King:
 
     def __init__(self, color="White"):
-        self.color = color
+        self.color = self.set_color(color)
 
     def __str__(self):
         if self.color.lower()[0] == "w":
@@ -17,7 +15,14 @@ class King:
             piece_color = Fore.BLUE + Style.BRIGHT
         return piece_color + ' K ' + Style.RESET_ALL
 
-    def move_options(self,position):
+    @staticmethod
+    def set_color(color):
+        result = "White"
+        if color.lower()[0] != "w":
+            result = "Black"
+        return result
+
+    def move_options(self, position, board):
         '''
         position - a tuple that represents where the king is on the board
         possible_moves is a list of positions that the king could move to without concern for size of the board
@@ -41,7 +46,8 @@ class King:
         
         for (x,y) in possible_moves:
             if x in valid_range and y in valid_range:
-                valid_moves.append((x,y))
+                if not (board.board[x][y].piece and board.board[x][y].piece.color == self.color):
+                    valid_moves.append((x,y))
 
         #for space in valid_moves:
         #    if occupied_check(space):
