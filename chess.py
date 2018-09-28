@@ -96,7 +96,7 @@ print("\n\n\n")
 
 thing1 = Bishop(color='white')
 thing2 = King(color='white')
-print(thing1.check_direction((3, 3), (1, 1)))
+print(thing1.check_direction((3, 3), (1, 1), some_board))
 print("\n\n\n")
 
 #Knight and Rook tests
