@@ -60,7 +60,32 @@ class Board:
         coords_tuple = self.grid.get(coords_str, None)
         return coords_tuple
 
-
+    def board_setup(self):
+        w = "White"
+        b = "Black"
+        for space in self.board[1]:
+            print(space)
+            self.board[space.position[0]][space.position[1]].piece = Pawn(color = b)
+        for space in self.board[6]:
+            print(space)
+            self.board[space.position[0]][space.position[1]].piece = Pawn(color = w)
+        self.board[0][0].piece = Rook(color = b)
+        self.board[0][1].piece = Knight(color = b)
+        self.board[0][2].piece = Bishop(color = b)
+        self.board[0][3].piece = Queen(color = b)
+        self.board[0][4].piece = King(color = b)
+        self.board[0][5].piece = Bishop(color = b)
+        self.board[0][6].piece = Knight(color = b)
+        self.board[0][7].piece = Rook(color = b)
+        self.board[7][0].piece = Rook(color = w)
+        self.board[7][1].piece = Knight(color = w)
+        self.board[7][2].piece = Bishop(color = w)
+        self.board[7][3].piece = Queen(color = w)
+        self.board[7][4].piece = King(color = w)
+        self.board[7][5].piece = Bishop(color = w)
+        self.board[7][6].piece = Knight(color = w)
+        self.board[7][7].piece = Rook(color = w)        
+        
 class Space:
     def __init__(self, x, y):
         self.position = (x, y)
@@ -95,29 +120,35 @@ some_board = Board()
 print(some_board.grid)
 print("\n\n\n")
 
-thing1 = Bishop(color='white')
-thing2 = King(color='white')
-print(thing1.check_direction((3, 3), (1, 1), some_board))
-print("\n\n\n")
+print(some_board)
+print("\n\n")
+
+some_board.board_setup()
+print(some_board)
+
+#thing1 = Bishop(color='white')
+#thing2 = King(color='white')
+#print(thing1.check_direction((3, 3), (1, 1), some_board))
+#print("\n\n\n")
 
 #Piece tests
-some_board.board[7][1].piece = Knight()
-some_board.board[7][0].piece = Rook()
-some_board.board[3][4].piece = Queen()
-some_board.board[4][3].piece = Queen(color='black')
-some_board.board[2][3].piece = Queen(color='black')
-some_board.board[4][5].piece = Queen(color='black')
-some_board.board[2][5].piece = Queen(color='black')
-some_board.board[1][4].piece = Pawn(color='black')
-some_board.board[6][4].piece = Pawn()
-
-player1 = Player()
-print(some_board)
-print("\n\n\n")
-while not some_board.board[0][0].piece:
-    player1.make_a_move(some_board)
-    print(some_board)
-    print("\n\n\n")
+#some_board.board[7][1].piece = Knight()
+#some_board.board[7][0].piece = Rook()
+#some_board.board[3][4].piece = Queen()
+#some_board.board[4][3].piece = Queen(color='black')
+#some_board.board[2][3].piece = Queen(color='black')
+#some_board.board[4][5].piece = Queen(color='black')
+#some_board.board[2][5].piece = Queen(color='black')
+#some_board.board[1][4].piece = Pawn(color='black')
+#some_board.board[6][4].piece = Pawn()
+#
+#player1 = Player()
+#print(some_board)
+#print("\n\n\n")
+#while not some_board.board[0][0].piece:
+#    player1.make_a_move(some_board)
+#    print(some_board)
+#    print("\n\n\n")
 
 # Piece pretty print test
 # print(some_board.inverted_grid)
