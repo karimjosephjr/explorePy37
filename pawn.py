@@ -8,7 +8,7 @@ init()
 class Pawn:
 
     def __init__(self, color="White"):
-        self.color = color
+        self.color = self.set_color(color)
         self.has_moved = False
 
     def __str__(self):
@@ -17,8 +17,15 @@ class Pawn:
         else:
             piece_color = Fore.BLUE + Style.BRIGHT
         return piece_color + ' P ' + Style.RESET_ALL
+        
+    @staticmethod
+    def set_color(color):
+        result = "White"
+        if color.lower()[0] != "w":
+            result = "Black"
+        return result    
 
-    def move_options(self,position):
+    def move_options(self,position,board):
         '''
         position - a tuple that represents where the pawn is on the board
         possible_moves is a list of positions that the pawn could move to without concern for size of the board

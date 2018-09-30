@@ -3,6 +3,7 @@ from bishop import Bishop
 from knight import Knight
 from rook import Rook
 from queen import Queen
+from pawn import Pawn
 from player import Player
 
 from colorama import init
@@ -99,7 +100,7 @@ thing2 = King(color='white')
 print(thing1.check_direction((3, 3), (1, 1), some_board))
 print("\n\n\n")
 
-#Knight and Rook tests
+#Piece tests
 some_board.board[7][1].piece = Knight()
 some_board.board[7][0].piece = Rook()
 some_board.board[3][4].piece = Queen()
@@ -107,6 +108,8 @@ some_board.board[4][3].piece = Queen(color='black')
 some_board.board[2][3].piece = Queen(color='black')
 some_board.board[4][5].piece = Queen(color='black')
 some_board.board[2][5].piece = Queen(color='black')
+some_board.board[1][4].piece = Pawn(color='black')
+some_board.board[6][4].piece = Pawn()
 
 player1 = Player()
 print(some_board)
