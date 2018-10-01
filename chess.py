@@ -64,10 +64,8 @@ class Board:
         w = "White"
         b = "Black"
         for space in self.board[1]:
-            print(space)
             self.board[space.position[0]][space.position[1]].piece = Pawn(color = b)
         for space in self.board[6]:
-            print(space)
             self.board[space.position[0]][space.position[1]].piece = Pawn(color = w)
         self.board[0][0].piece = Rook(color = b)
         self.board[0][1].piece = Knight(color = b)
