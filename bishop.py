@@ -7,6 +7,7 @@ class Bishop:
 
     def __init__(self, color="White"):
         self.color = self.set_color(color)
+        self.options = []
 
     def __str__(self):
         if self.color.lower()[0] == "w":

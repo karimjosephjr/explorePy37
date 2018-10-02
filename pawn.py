@@ -9,6 +9,7 @@ class Pawn:
 
     def __init__(self, color="White"):
         self.color = self.set_color(color)
+        self.options = []
         self.has_moved = False
 
     def __str__(self):
