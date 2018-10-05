@@ -10,7 +10,11 @@ class Pawn:
     def __init__(self, color="White"):
         self.color = self.set_color(color)
         self.has_moved = False
-
+        self.double_move_flag = False
+        self.passant_left = False
+        self.passant_right = False
+        self.color_mod = self.set_color_mod()
+        
     def __str__(self):
         if self.color.lower()[0] == "w":
             piece_color = Fore.WHITE + Style.BRIGHT
@@ -23,8 +27,26 @@ class Pawn:
         result = "White"
         if color.lower()[0] != "w":
             result = "Black"
-        return result    
+        return result
 
+    @staticmethod
+    def set_color_mod(self):
+        if self.color.lower()[0] == "w":
+            color_mod = -1
+        else:
+            color_mod = 1        
+        return color_mod         
+    
+    def en_passant(self, board, a, b, possible_moves):
+        #reset passant attributes to False
+        self.passant_left = False
+        self.passant_right = False
+        #Now check to see if passant attributes should be updated to True, based on ALL of the following criteria
+        if capture_left in possible_moves and board.board[a][b-1].piece and board.board[a][b-1].piece.color != self.color and isinstance(board.board[a][b-1].piece, Pawn) and board.board[a][b-1].piece.double_move_flag:
+            self.passant_left = True
+        if capture_right in possible_moves and board.board[a][b+1].piece and board.board[a][b+1].piece.color != self.color and isinstance(board.board[a][b+1].piece, Pawn) and board.board[a][b+1].piece.double_move_flag:
+            self.passant_right = True            
+            
     def move_options(self,position,board):
         '''
         position - a tuple that represents where the pawn is on the board
@@ -34,19 +56,15 @@ class Pawn:
         '''
         a = position[0]
         b = position[1]
-        if self.color.lower()[0] == "w":
-            color_mod = -1
-        else:
-            color_mod = 1
-        single_move = (a + color_mod, b)
-        double_move = (a + (2 * color_mod), b)
-        capture_left = (a + color_mod, b - 1)
-        capture_right = (a + color_mod, b + 1)
+        single_move = (a + self.color_mod, b)
+        double_move = (a + (2 * self.color_mod), b)
+        capture_left = (a + self.color_mod, b - 1)
+        capture_right = (a + self.color_mod, b + 1)
         move_list = [single_move, double_move, capture_left, capture_right]
         valid_range = list(range(8))
-        possible_moves = []
+        possible_moves = [] #This list will be the moves that fit on the board, used mostly to trim the diaganol captures from the sides of the board
         valid_moves = []
- 
+
         #single_move   - (a + color_mod, b)       The default move
         #double_move   - (a + (2 * color_mod), b) Only legal when self.has_moved = False
         #capture_left  - (a + color_mod, b - 1)   Only legal when the destination space is occupied by a non-king piece of the opposite color
@@ -56,7 +74,8 @@ class Pawn:
         for move in move_list:
             if move[0] in valid_range and move[1] in valid_range:
                 possible_moves.append(move)        
-        
+        #update passant attributes
+        en_passant(board, a, b, possible_moves)
         #single_move
         if single_move in possible_moves:
             if not board.board[single_move[0]][single_move[1]].piece:
@@ -68,11 +87,11 @@ class Pawn:
                     valid_moves.append(double_move)
         #capture_left
         if capture_left in possible_moves:
-            if board.board[capture_left[0]][capture_left[1]].piece and board.board[capture_left[0]][capture_left[1]].piece.color != self.color:
+            if (board.board[capture_left[0]][capture_left[1]].piece and board.board[capture_left[0]][capture_left[1]].piece.color != self.color) or self.passant_left:
                 valid_moves.append(capture_left)
         #capture_right
         if capture_right in possible_moves:
-            if board.board[capture_right[0]][capture_right[1]].piece and board.board[capture_right[0]][capture_right[1]].piece.color != self.color:
+            if board.board[capture_right[0]][capture_right[1]].piece and board.board[capture_right[0]][capture_right[1]].piece.color != self.color or self.passant_right:
                 valid_moves.append(capture_right)        
         
         #legal_moves = []
