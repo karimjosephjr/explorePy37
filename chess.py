@@ -51,10 +51,49 @@ class Board:
             array_of_str_spaces.append(str(label) + ' ' + ''.join(array_of_array_of_str_spaces[row]) + Style.RESET_ALL)
         return ''.join(letters) + '\n'.join(array_of_str_spaces)
 
+    def pawn_promotion(self, pawn, end):
+        options = ("q","r","b","k")
+        new_piece = "None"
+        while new_piece.lower()[0] not in options:
+            new_piece = input("What piece would you like to promote your pawn to? Your options are:\n[Q]ueen\n[R]ook\n[B]ishop\n[K]night ")
+        if new_piece.lower()[0] == "q":
+            self.board[end[0]][end[1]].piece = Queen(color=pawn.color) 
+        if new_piece.lower()[0] == "r":
+            self.board[end[0]][end[1]].piece = Rook(color=pawn.color) 
+        if new_piece.lower()[0] == "b":
+            self.board[end[0]][end[1]].piece = Bishop(color=pawn.color)  
+        if new_piece.lower()[0] == "k":
+            self.board[end[0]][end[1]].piece = Knight(color=pawn.color) 
+            
     def update_board(self, start, end):
         self.board[end[0]][end[1]].piece = self.board[start[0]][start[1]].piece
         self.board[start[0]][start[1]].piece = None
-
+        
+        #Reset double_move_flag to False for all Pawns
+        for row in self.board:
+            for space in row:
+                if space.piece and isinstance(space.piece, Pawn):
+                    space.piece.double_move_flag = False
+        
+        #Special instructions for moving Pawns
+        if isinstance(self.board[end[0]][end[1]].piece, Pawn):
+            current_pawn = self.board[end[0]][end[1]].piece
+            #Update double_move_flag by comparing start and end
+            if end in ((start[0]+2,start[1]),(start[0]-2,start[1])):
+                current_pawn.double_move_flag = True
+            #update has_moved once the pawn has moved
+            if not current_pawn.has_moved:
+                current_pawn.has_moved = True
+            #if a pawn reaches the top or bottom of the board it must be promoted
+            if end[0] in (0,7):
+                pawn_promotion(current_pawn, end)
+            #if a pawn takes an en passant move, it captures the pawn that was adjacent to it's starting position
+            if current_pawn.passant_left and end == (start[0] + current_pawn.color_mod, start[1] - 1):
+                self.board[start[0]][start[1]-1].piece = None
+            if current_pawn.passant_right and end == (start[0] + current_pawn.color_mod, start[1] + 1):
+                self.board[start[0]][start[1] + 1].piece = None            
+            
+            
     def get_coords(self, coords_str):
         coords_str = str(coords_str).lower()
         coords_tuple = self.grid.get(coords_str, None)
