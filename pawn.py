@@ -29,7 +29,6 @@ class Pawn:
             result = "Black"
         return result
 
-    @staticmethod
     def set_color_mod(self):
         if self.color.lower()[0] == "w":
             color_mod = -1
@@ -37,7 +36,7 @@ class Pawn:
             color_mod = 1        
         return color_mod         
     
-    def en_passant(self, board, a, b, possible_moves):
+    def en_passant(self, board, a, b, possible_moves, capture_left, capture_right):
         #reset passant attributes to False
         self.passant_left = False
         self.passant_right = False
@@ -75,7 +74,7 @@ class Pawn:
             if move[0] in valid_range and move[1] in valid_range:
                 possible_moves.append(move)        
         #update passant attributes
-        en_passant(board, a, b, possible_moves)
+        self.en_passant(board, a, b, possible_moves, capture_left, capture_right)
         #single_move
         if single_move in possible_moves:
             if not board.board[single_move[0]][single_move[1]].piece:

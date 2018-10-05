@@ -86,7 +86,7 @@ class Board:
                 current_pawn.has_moved = True
             #if a pawn reaches the top or bottom of the board it must be promoted
             if end[0] in (0,7):
-                pawn_promotion(current_pawn, end)
+                self.pawn_promotion(current_pawn, end)
             #if a pawn takes an en passant move, it captures the pawn that was adjacent to it's starting position
             if current_pawn.passant_left and end == (start[0] + current_pawn.color_mod, start[1] - 1):
                 self.board[start[0]][start[1]-1].piece = None
@@ -160,8 +160,8 @@ print("\n\n\n")
 print(some_board)
 print("\n\n")
 
-some_board.board_setup()
-print(some_board)
+#some_board.board_setup()
+#print(some_board)
 
 #thing1 = Bishop(color='white')
 #thing2 = King(color='white')
@@ -176,16 +176,21 @@ print(some_board)
 #some_board.board[2][3].piece = Queen(color='black')
 #some_board.board[4][5].piece = Queen(color='black')
 #some_board.board[2][5].piece = Queen(color='black')
-#some_board.board[1][4].piece = Pawn(color='black')
-#some_board.board[6][4].piece = Pawn()
-#
-#player1 = Player()
-#print(some_board)
-#print("\n\n\n")
-#while not some_board.board[0][0].piece:
-#    player1.make_a_move(some_board)
-#    print(some_board)
-#    print("\n\n\n")
+some_board.board[1][0].piece = Pawn()
+some_board.board[1][7].piece = Pawn()
+some_board.board[3][2].piece = Pawn()
+some_board.board[6][5].piece = Pawn()
+some_board.board[1][3].piece = Pawn(color='black')
+some_board.board[4][6].piece = Pawn(color='black')
+some_board.board[6][0].piece = Pawn(color='black')
+
+player1 = Player()
+print(some_board)
+print("\n\n\n")
+while not some_board.board[0][0].piece:
+    player1.make_a_move(some_board)
+    print(some_board)
+    print("\n\n\n")
 
 # Piece pretty print test
 # print(some_board.inverted_grid)
