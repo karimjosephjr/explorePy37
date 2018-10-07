@@ -1,4 +1,3 @@
-#define Player class
 import copy
 
 
@@ -9,14 +8,14 @@ class Player:
         self.color = color
     
     def make_a_move(self, board):
-        '''
+        """"
         Prompt the player to select a piece that they wish to move by providing the space that piece occupies
         Then prompt the player to select where they would like to move that piece to
         Update the board after validation 
-        '''
+        """
         
-        #board.get_coords(string) returns either None or a tuple
-        #board.update_board(start,end) is expecting two tuples (coord of piece that is going to move)(coord of destination)
+        # board.get_coords(string) returns either None or a tuple
+        # board.update_board(start,end) is expecting two tuples (coord of piece that is going to move)(coord of destination)
 
         self.update_initial_options(board)
         self.update_checkless_options(board)
