@@ -171,15 +171,15 @@ class Space:
 
 
 # test cases
-some_board = Board()
-print(some_board.grid)
-print("\n\n\n")
-
-print(some_board)
-print("\n\n")
-
-some_board.board_setup()
-print(some_board)
+# some_board = Board()
+# print(some_board.grid)
+# print("\n\n\n")
+#
+# print(some_board)
+# print("\n\n")
+#
+# some_board.board_setup()
+# print(some_board)
 
 # thing1 = Bishop(color='white')
 # thing2 = King(color='white')
@@ -197,13 +197,13 @@ print(some_board)
 # some_board.board[1][4].piece = Pawn(color='black')
 # some_board.board[6][4].piece = Pawn()
 #
-player1 = Player(color="Black")
+# player1 = Player()
 # print(some_board)
 # print("\n\n\n")
-while True:
-    player1.make_a_move(some_board)
-    print(some_board)
-    print("\n\n\n")
+# while True:
+#     player1.make_a_move(some_board)
+#     print(some_board)
+#     print("\n\n\n")
 
 # Piece pretty print test
 # print(some_board.inverted_grid)
@@ -220,3 +220,17 @@ while True:
 #
 # player1.make_a_move(some_board)
 # print(some_board)
+
+def main():
+    players = (Player(), Player(color="Black"))
+    turn = 0
+    some_board = Board()
+    some_board.board_setup()
+    while True:
+        print(some_board)
+        players[turn].make_a_move(some_board)
+        turn = 0 if turn == 1 else 1
+
+
+if __name__ == '__main__':
+    main()
