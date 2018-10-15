@@ -228,8 +228,8 @@ def main():
     some_board.board_setup()
     while True:
         print(some_board)
-        players[turn].make_a_move(some_board)
-        turn = 0 if turn == 1 else 1
+        players[(turn + 2) % 2].make_a_move(some_board)
+        turn += 1
 
 
 if __name__ == '__main__':
