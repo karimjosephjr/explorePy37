@@ -1,6 +1,6 @@
 import copy
 from colorama import init
-from colorama import Back
+from colorama import Back, Style
 init()
 
 
@@ -73,6 +73,9 @@ class Player:
             if copy_board.board[move_position[0]][move_position[1]].piece:
                 copy_board.board[move_position[0]][move_position[1]].color = Back.RED
             else:
+                # if something:
+                #     copy_board.board[move_position[0]][move_position[1]].color = Back.YELLOW + Style.BRIGHT
+                # else:
                 copy_board.board[move_position[0]][move_position[1]].color = Back.YELLOW
         print(copy_board)
         print("\n".join(pretty_options))
