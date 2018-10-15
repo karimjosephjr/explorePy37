@@ -1,4 +1,7 @@
 import copy
+from colorama import init
+from colorama import Back, Style
+init()
 
 
 class Player:
@@ -32,7 +35,7 @@ class Player:
         while move_choice not in valid_moves:
             potential_move = input("Select the space that you would like to move your piece to: ")
             if potential_move == "help":
-                print(self.print_move_options(piece_tup, board))
+                self.print_move_options(piece_tup, board)
             move_choice = board.get_coords(potential_move)
             
         board.update_board(piece_tup, move_choice)
@@ -58,11 +61,24 @@ class Player:
 
     @staticmethod
     def print_move_options(position, board):
-        piece = board.board[position[0]][position[1]].piece
+        copy_board = copy.deepcopy(board)
+        piece = copy_board.board[position[0]][position[1]].piece
         tuple_options = piece.options
-        pretty_options = [board.inverted_grid[position] for position in tuple_options]
-        return "\n".join(pretty_options)
 
+        pretty_options = [board.inverted_grid[position] for position in tuple_options]
+
+        copy_board.board[position[0]][position[1]].color = Back.GREEN
+        for move_position in tuple_options:
+            # if piece is opponent color, color red else color yellow
+            if copy_board.board[move_position[0]][move_position[1]].piece:
+                copy_board.board[move_position[0]][move_position[1]].color = Back.RED
+            else:
+                # if something:
+                #     copy_board.board[move_position[0]][move_position[1]].color = Back.YELLOW + Style.BRIGHT
+                # else:
+                copy_board.board[move_position[0]][move_position[1]].color = Back.YELLOW
+        print(copy_board)
+        print("\n".join(pretty_options))
 
 # Help visualize board:
 # [
