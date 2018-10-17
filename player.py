@@ -27,7 +27,7 @@ class Player:
         while not valid_piece:
             piece_space = input("Select the piece that you wish to move by providing the space it currently occupies: ")
             piece_tup = board.get_coords(piece_space)
-            if piece_tup != None and board.board[piece_tup[0]][piece_tup[1]].piece != None and board.board[piece_tup[0]][piece_tup[1]].piece.color == self.color:
+            if piece_tup != None and board.board[piece_tup[0]][piece_tup[1]].piece != None and board.board[piece_tup[0]][piece_tup[1]].piece.color == self.color and len(board.board[piece_tup[0]][piece_tup[1]].piece.options) > 0:
                 valid_piece = board.board[piece_tup[0]][piece_tup[1]].piece
                 
         valid_moves = valid_piece.options
