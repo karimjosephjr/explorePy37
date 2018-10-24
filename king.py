@@ -1,3 +1,4 @@
+from rook import Rook
 from colorama import init
 from colorama import Fore, Style
 init()
