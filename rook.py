@@ -7,6 +7,7 @@ class Rook:
 
     def __init__(self, color="White"):
         self.color = self.set_color(color)
+        self.has_moved = False
         self.options = []
 
     def __str__(self):
