@@ -140,6 +140,20 @@ class Board:
         # else... return false
         return False
 
+    def assess_end_game(self, color):
+        end_game = True
+        winner = None
+        for row in range(8):
+            for col in range(8):
+                if self.board[row][col].piece and self.board[row][col].piece.color == color and len(self.board[row][col].piece.options) > 0:
+                    end_game = False
+        if end_game:
+            if color == 'White':
+                winner = 'Black'
+            else:
+                winner = 'White'
+        return winner
+
 
 class Space:
     def __init__(self, x, y):
@@ -226,10 +240,13 @@ def main():
     turn = 0
     some_board = Board()
     some_board.board_setup()
-    while True:
+    end_game = None
+    while not end_game:
         print(some_board)
-        players[(turn + 2) % 2].make_a_move(some_board)
+        end_game = players[(turn + 2) % 2].make_a_move(some_board)
         turn += 1
+        if end_game:
+            print(f'{end_game} wins!')
 
 
 if __name__ == '__main__':

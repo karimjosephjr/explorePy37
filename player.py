@@ -22,23 +22,26 @@ class Player:
 
         self.update_initial_options(board)
         self.update_checkless_options(board)
+        end_game = board.assess_end_game(self.color)
 
-        valid_piece = None
-        while not valid_piece:
-            piece_space = input("Select the piece that you wish to move by providing the space it currently occupies: ")
-            piece_tup = board.get_coords(piece_space)
-            if piece_tup != None and board.board[piece_tup[0]][piece_tup[1]].piece != None and board.board[piece_tup[0]][piece_tup[1]].piece.color == self.color and len(board.board[piece_tup[0]][piece_tup[1]].piece.options) > 0:
-                valid_piece = board.board[piece_tup[0]][piece_tup[1]].piece
-                
-        valid_moves = valid_piece.options
-        move_choice = None
-        while move_choice not in valid_moves:
-            potential_move = input("Select the space that you would like to move your piece to: ")
-            if potential_move == "help":
-                self.print_move_options(piece_tup, board)
-            move_choice = board.get_coords(potential_move)
-            
-        board.update_board(piece_tup, move_choice)
+        if not end_game:
+            valid_piece = None
+            while not valid_piece:
+                piece_space = input("Select the piece that you wish to move by providing the space it currently occupies: ")
+                piece_tup = board.get_coords(piece_space)
+                if piece_tup != None and board.board[piece_tup[0]][piece_tup[1]].piece != None and board.board[piece_tup[0]][piece_tup[1]].piece.color == self.color and len(board.board[piece_tup[0]][piece_tup[1]].piece.options) > 0:
+                    valid_piece = board.board[piece_tup[0]][piece_tup[1]].piece
+
+            valid_moves = valid_piece.options
+            move_choice = None
+            while move_choice not in valid_moves:
+                potential_move = input("Select the space that you would like to move your piece to: ")
+                if potential_move == "help":
+                    self.print_move_options(piece_tup, board)
+                move_choice = board.get_coords(potential_move)
+
+            board.update_board(piece_tup, move_choice)
+        return end_game
 
     def update_initial_options(self, board):
         for row in range(8):
