@@ -1,3 +1,4 @@
+from chesstools import assess_threat
 from rook import Rook
 from colorama import init
 from colorama import Fore, Style
@@ -33,15 +34,41 @@ class King:
         self.castle_right = False
         
         if not self.has_moved:
+            #if there is nothing between the king and the rook
             if not board.board[a][b-1].piece and not board.board[a][b-2].piece and not board.board[a][b-3].piece:
+                #if the rook hasn't moved
                 if board.board[a][b-4].piece and isinstance(board.board[a][b-4].piece, Rook) and not board.board[a][b-4].piece.has_moved: 
                     #if king doesn't move through threat:
-                    self.castle_left = True
+                    castle_stop = False
+                    for row in range(8):
+                        for col in range(8):
+                            if not castle_stop:
+                                threats = assess_threat(board, self.color, row, col)
+                                for threat in threats:
+                                    if threat in ((a,b),(a,b-1),(a,b-2)):
+                                        castle_stop = True
+                                        break
+                            else:
+                                break
+                    if not castle_stop:
+                        self.castle_left = True
         if not self.has_moved:
             if not board.board[a][b+1].piece and not board.board[a][b+2].piece:
                 if board.board[a][b+3].piece and isinstance(board.board[a][b+3].piece, Rook) and not board.board[a][b+3].piece.has_moved:
                     #if king doesn't move through threat:
-                    self.castle_right = True
+                    castle_stop = False
+                    for row in range(8):
+                        for col in range(8):
+                            if not castle_stop:
+                                threats = assess_threat(board, self.color, row, col)
+                                for threat in threats:
+                                    if threat in ((a,b),(a,b+1),(a,b+2)):
+                                        castle_stop = True
+                                        break
+                            else:
+                                break
+                    if not castle_stop:
+                        self.castle_right = True
 
     def move_options(self, position, board):
         """"
