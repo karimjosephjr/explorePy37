@@ -192,7 +192,7 @@ class Space:
 
 
 # test cases
-some_board = Board()
+# some_board = Board()
 # print(some_board.grid)
 # print("\n\n\n")
 #
@@ -216,18 +216,18 @@ some_board = Board()
 # some_board.board[4][5].piece = Queen(color='black')
 # some_board.board[2][5].piece = Queen(color='black')
 # some_board.board[1][4].piece = Pawn(color='black')
-some_board.board[7][4].piece = King()
-some_board.board[7][7].piece = Rook()
-some_board.board[7][0].piece = Rook()
-some_board.board[5][4].piece = Bishop(color='black')
-
-player1 = Player()
-print(some_board)
-print("\n\n\n")
-while True:
-    player1.make_a_move(some_board)
-    print(some_board)
-    print("\n\n\n")
+# some_board.board[7][4].piece = King()
+# some_board.board[7][7].piece = Rook()
+# some_board.board[7][0].piece = Rook()
+# some_board.board[6][7].piece = Pawn(color='black')
+# 
+# player1 = Player()
+# print(some_board)
+# print("\n\n\n")
+# while True:
+#     player1.make_a_move(some_board)
+#     print(some_board)
+#     print("\n\n\n")
 
 # Piece pretty print test
 # print(some_board.inverted_grid)
@@ -245,16 +245,16 @@ while True:
 # player1.make_a_move(some_board)
 # print(some_board)
 
-#def main():
-#    players = (Player(), Player(color="Black"))
-#    turn = 0
-#    some_board = Board()
-#    some_board.board_setup()
-#    while True:
-#        print(some_board)
-#        players[(turn + 2) % 2].make_a_move(some_board)
-#        turn += 1
-#
-#
-#if __name__ == '__main__':
-#    main()
+def main():
+    players = (Player(), Player(color="Black"))
+    turn = 0
+    some_board = Board()
+    some_board.board_setup()
+    while True:
+        print(some_board)
+        players[(turn + 2) % 2].make_a_move(some_board)
+        turn += 1
+
+
+if __name__ == '__main__':
+    main()
