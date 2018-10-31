@@ -123,22 +123,33 @@ class Board:
         self.board[7][5].piece = Bishop(color=w)
         self.board[7][6].piece = Knight(color=w)
         self.board[7][7].piece = Rook(color=w)
-            
+
+    @staticmethod
+    def check_king(future_board, color, threat):
+        result = False
+        if (future_board.board[threat[0]][threat[1]].piece and
+            isinstance(future_board.board[threat[0]][threat[1]].piece, King) and
+                future_board.board[threat[0]][threat[1]].piece.color == color):
+                    result = True
+        return result
+
     @staticmethod
     def threats_to_king(future_board, color):  # future_board is a deep copy
+        result = False
         # for my opponent pieces
         for row in range(8):
             for col in range(8):
                 threats = assess_threat(future_board, color, row, col)
                 for threat in threats:
                     # if they threaten my king
-                    if (future_board.board[threat[0]][threat[1]].piece and
-                        isinstance(future_board.board[threat[0]][threat[1]].piece, King) and
-                            future_board.board[threat[0]][threat[1]].piece.color == color):
-                                # finish / return true
-                                return True
-        # else... return false
-        return False
+                    result = Board.check_king(future_board, color, threat)
+                    if result:
+                        break
+                if result:
+                    break
+            if result:
+                break
+        return result
 
 
 class Space:
