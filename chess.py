@@ -70,7 +70,28 @@ class Board:
     def update_board(self, start, end):
         self.board[end[0]][end[1]].piece = self.board[start[0]][start[1]].piece
         self.board[start[0]][start[1]].piece = None
-
+        
+        #special instructions for moving Kings
+        if isinstance(self.board[end[0]][end[1]].piece, King):
+            current_king = self.board[end[0]][end[1]].piece        
+            # update has_moved once the king has moved
+            if not current_king.has_moved:
+                current_king.has_moved = True
+            #if the King castled, the corresponding Rook must be moved as well
+            if end == (start[0],start[1]-2):
+               self.board[end[0]][end[1]+1].piece = self.board[start[0]][start[1]-4].piece
+               self.board[end[0]][end[1]+1].piece.has_moved = True
+               self.board[start[0]][start[1]-4].piece = None
+            if end == (start[0],start[1]+2):
+               self.board[end[0]][end[1]-1].piece = self.board[start[0]][start[1]+3].piece
+               self.board[end[0]][end[1]-1].piece.has_moved = True
+               self.board[start[0]][start[1]+3].piece = None
+               
+        #update has_moved attribute for Rooks
+        if isinstance(self.board[end[0]][end[1]].piece, Rook):
+            if not self.board[end[0]][end[1]].piece.has_moved:
+                self.board[end[0]][end[1]].piece.has_moved = True
+                
         # Reset double_move_flag to False for all Pawns
         for row in self.board:
             for space in row:
@@ -206,8 +227,11 @@ class Space:
 # some_board.board[4][5].piece = Queen(color='black')
 # some_board.board[2][5].piece = Queen(color='black')
 # some_board.board[1][4].piece = Pawn(color='black')
-# some_board.board[6][4].piece = Pawn()
-#
+# some_board.board[7][4].piece = King()
+# some_board.board[7][7].piece = Rook()
+# some_board.board[7][0].piece = Rook()
+# some_board.board[6][7].piece = Pawn(color='black')
+# 
 # player1 = Player()
 # print(some_board)
 # print("\n\n\n")

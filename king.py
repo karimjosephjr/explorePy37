@@ -1,3 +1,5 @@
+from chesstools import assess_threat
+from rook import Rook
 from colorama import init
 from colorama import Fore, Style
 init()
@@ -7,6 +9,9 @@ class King:
 
     def __init__(self, color="White"):
         self.color = self.set_color(color)
+        self.has_moved = False
+        self.castle_left = False
+        self.castle_right = False
         self.options = []
 
     def __str__(self):
@@ -22,6 +27,48 @@ class King:
         if color.lower()[0] != "w":
             result = "Black"
         return result
+        
+    def castle(self, board, a, b):
+        #reset castle flags to false
+        self.castle_left = False
+        self.castle_right = False
+        
+        if not self.has_moved:
+            #if there is nothing between the king and the rook
+            if not board.board[a][b-1].piece and not board.board[a][b-2].piece and not board.board[a][b-3].piece:
+                #if the rook hasn't moved
+                if board.board[a][b-4].piece and isinstance(board.board[a][b-4].piece, Rook) and not board.board[a][b-4].piece.has_moved: 
+                    #if king doesn't move through threat:
+                    castle_stop = False
+                    for row in range(8):
+                        for col in range(8):
+                            if not castle_stop:
+                                threats = assess_threat(board, self.color, row, col)
+                                for threat in threats:
+                                    if threat in ((a,b),(a,b-1),(a,b-2)):
+                                        castle_stop = True
+                                        break
+                            else:
+                                break
+                    if not castle_stop:
+                        self.castle_left = True
+        if not self.has_moved:
+            if not board.board[a][b+1].piece and not board.board[a][b+2].piece:
+                if board.board[a][b+3].piece and isinstance(board.board[a][b+3].piece, Rook) and not board.board[a][b+3].piece.has_moved:
+                    #if king doesn't move through threat:
+                    castle_stop = False
+                    for row in range(8):
+                        for col in range(8):
+                            if not castle_stop:
+                                threats = assess_threat(board, self.color, row, col)
+                                for threat in threats:
+                                    if threat in ((a,b),(a,b+1),(a,b+2)):
+                                        castle_stop = True
+                                        break
+                            else:
+                                break
+                    if not castle_stop:
+                        self.castle_right = True
 
     def move_options(self, position, board):
         """"
@@ -32,27 +79,30 @@ class King:
         """
         a = position[0]
         b = position[1]
-        # up         = (a-1,b)
-        # down         = (a+1,b)
-        # left         = (a,b-1)
+        # up            = (a-1,b)
+        # down          = (a+1,b)
+        # left          = (a,b-1)
         # right         = (a,b+1)
-        # up_left     = (a-1,b-1)
-        # up_right     = (a-1,b+1)
+        # up_left       = (a-1,b-1)
+        # up_right      = (a-1,b+1)
         # down_left     = (a+1,b-1)
-        # down_right = (a+1, b+1)
+        # down_right    = (a+1, b+1)
+        #Castling logic - IF (king has not moved AND rook has not moved) AND (no pieces between king and rook) AND (king does not move through check)
         possible_moves = [(a-1, b), (a+1, b), (a, b-1), (a, b+1), (a-1, b-1), (a-1, b+1), (a+1, b-1), (a+1, b+1)]  # a list of tuple coordinate pairs corresponding to positions on the board
         valid_range = list(range(8))
         valid_moves = []
-        # legal_moves = []
         
         for (x, y) in possible_moves:
             if x in valid_range and y in valid_range:
                 if not (board.board[x][y].piece and board.board[x][y].piece.color == self.color):
                     valid_moves.append((x, y))
-
-        # for space in valid_moves:
-        #    if occupied_check(space):
-        #        legal_moves.append(space)
+        #call self.castle to update castle flags            
+        self.castle(board, a, b)
+        #append castling spaces to valid_moves based on castle flags
+        if self.castle_left:
+            valid_moves.append((a, b-2))
+        if self.castle_right:
+            valid_moves.append((a, b+2))
     
         return valid_moves
     
