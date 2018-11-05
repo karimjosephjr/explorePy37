@@ -32,14 +32,17 @@ class Player:
                 if piece_tup != None and board.board[piece_tup[0]][piece_tup[1]].piece != None and board.board[piece_tup[0]][piece_tup[1]].piece.color == self.color and len(board.board[piece_tup[0]][piece_tup[1]].piece.options) > 0:
                     valid_piece = board.board[piece_tup[0]][piece_tup[1]].piece
 
-            valid_moves = valid_piece.options
-            move_choice = None
-            while move_choice not in valid_moves:
-                potential_move = input("Select the space that you would like to move your piece to: ")
-                if potential_move == "help":
-                    self.print_move_options(piece_tup, board)
-                move_choice = board.get_coords(potential_move)
-
+                valid_moves = valid_piece.options
+                move_choice = None
+                while move_choice not in valid_moves:
+                    potential_move = input("Select the space that you would like to move your piece to.\nYou can enter 'help' to see a list of possible moves or 'change' to select a different piece to move: ")
+                    if potential_move == "help":
+                        self.print_move_options(piece_tup, board)
+                    if potential_move == "change":
+                        valid_piece = None
+                        break
+                    move_choice = board.get_coords(potential_move)
+    
             board.update_board(piece_tup, move_choice)
         return end_game
 
