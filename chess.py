@@ -73,7 +73,7 @@ class Board:
         
         #special instructions for moving Kings
         if isinstance(self.board[end[0]][end[1]].piece, King):
-            current_king = self.board[end[0]][end[1]].piece        
+            current_king = self.board[end[0]][end[1]].piece
             # update has_moved once the king has moved
             if not current_king.has_moved:
                 current_king.has_moved = True
@@ -124,26 +124,33 @@ class Board:
     def board_setup(self):
         w = "White"
         b = "Black"
-        for space in self.board[1]:
-            self.board[space.position[0]][space.position[1]].piece = Pawn(color=b)
-        for space in self.board[6]:
-            self.board[space.position[0]][space.position[1]].piece = Pawn(color=w)
-        self.board[0][0].piece = Rook(color=b)
-        self.board[0][1].piece = Knight(color=b)
-        self.board[0][2].piece = Bishop(color=b)
-        self.board[4][1].piece = Queen(color=b)
-        self.board[0][4].piece = King(color=b)
-        self.board[0][5].piece = Bishop(color=b)
-        self.board[0][6].piece = Knight(color=b)
-        self.board[0][7].piece = Rook(color=b)
-        self.board[7][0].piece = Rook(color=w)
-        self.board[7][1].piece = Knight(color=w)
-        self.board[7][2].piece = Bishop(color=w)
-        self.board[7][3].piece = Queen(color=w)
         self.board[7][4].piece = King(color=w)
-        self.board[7][5].piece = Bishop(color=w)
-        self.board[7][6].piece = Knight(color=w)
-        self.board[7][7].piece = Rook(color=w)
+        self.board[2][3].piece = Rook(color=b)
+        self.board[2][5].piece = Rook(color=b)
+        self.board[6][0].piece = Queen(color=b)
+        self.board[5][4].piece = Rook(color=b) # Checkmate!
+
+        ### True board ###
+        # for space in self.board[1]:
+        #     self.board[space.position[0]][space.position[1]].piece = Pawn(color=b)
+        # for space in self.board[6]:
+        #     self.board[space.position[0]][space.position[1]].piece = Pawn(color=w)
+        # self.board[0][0].piece = Rook(color=b)
+        # self.board[0][1].piece = Knight(color=b)
+        # self.board[0][2].piece = Bishop(color=b)
+        # self.board[0][3].piece = Queen(color=b)
+        # self.board[0][4].piece = King(color=b)
+        # self.board[0][5].piece = Bishop(color=b)
+        # self.board[0][6].piece = Knight(color=b)
+        # self.board[0][7].piece = Rook(color=b)
+        # self.board[7][0].piece = Rook(color=w)
+        # self.board[7][1].piece = Knight(color=w)
+        # self.board[7][2].piece = Bishop(color=w)
+        # self.board[7][3].piece = Queen(color=w)
+        # self.board[7][4].piece = King(color=w)
+        # self.board[7][5].piece = Bishop(color=w)
+        # self.board[7][6].piece = Knight(color=w)
+        # self.board[7][7].piece = Rook(color=w)
 
     @staticmethod
     def check_king(future_board, color, threat):
@@ -174,16 +181,24 @@ class Board:
 
     def assess_end_game(self, color):
         end_game = True
+        in_check = Board.threats_to_king(self, color)
         winner = None
         for row in range(8):
             for col in range(8):
                 if self.board[row][col].piece and self.board[row][col].piece.color == color and len(self.board[row][col].piece.options) > 0:
                     end_game = False
+                if not end_game:
+                    break
+            if not end_game:
+                break
         if end_game:
-            if color == 'White':
-                winner = 'Black'
+            if in_check:
+                if color == 'White':
+                    winner = 'Black'
+                else:
+                    winner = 'White'
             else:
-                winner = 'White'
+                winner = "Tie"
         return winner
 
 
@@ -281,7 +296,10 @@ def main():
         end_game = players[(turn + 2) % 2].make_a_move(some_board)
         turn += 1
         if end_game:
-            print(f'{end_game} wins!')
+            if end_game == "Tie":
+                print('Stalemate!')
+            else:
+                print(f'Checkmate! {end_game} wins!')
 
 
 if __name__ == '__main__':
