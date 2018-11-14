@@ -124,33 +124,27 @@ class Board:
     def board_setup(self):
         w = "White"
         b = "Black"
-        self.board[7][4].piece = King(color=w)
-        self.board[2][3].piece = Rook(color=b)
-        self.board[2][5].piece = Rook(color=b)
-        self.board[6][0].piece = Queen(color=b)
-        self.board[5][4].piece = Rook(color=b) # Checkmate!
 
-        ### True board ###
-        # for space in self.board[1]:
-        #     self.board[space.position[0]][space.position[1]].piece = Pawn(color=b)
-        # for space in self.board[6]:
-        #     self.board[space.position[0]][space.position[1]].piece = Pawn(color=w)
-        # self.board[0][0].piece = Rook(color=b)
-        # self.board[0][1].piece = Knight(color=b)
-        # self.board[0][2].piece = Bishop(color=b)
-        # self.board[0][3].piece = Queen(color=b)
-        # self.board[0][4].piece = King(color=b)
-        # self.board[0][5].piece = Bishop(color=b)
-        # self.board[0][6].piece = Knight(color=b)
-        # self.board[0][7].piece = Rook(color=b)
-        # self.board[7][0].piece = Rook(color=w)
-        # self.board[7][1].piece = Knight(color=w)
-        # self.board[7][2].piece = Bishop(color=w)
-        # self.board[7][3].piece = Queen(color=w)
-        # self.board[7][4].piece = King(color=w)
-        # self.board[7][5].piece = Bishop(color=w)
-        # self.board[7][6].piece = Knight(color=w)
-        # self.board[7][7].piece = Rook(color=w)
+        for space in self.board[1]:
+            self.board[space.position[0]][space.position[1]].piece = Pawn(color=b)
+        for space in self.board[6]:
+            self.board[space.position[0]][space.position[1]].piece = Pawn(color=w)
+        self.board[0][0].piece = Rook(color=b)
+        self.board[0][1].piece = Knight(color=b)
+        self.board[0][2].piece = Bishop(color=b)
+        self.board[0][3].piece = Queen(color=b)
+        self.board[0][4].piece = King(color=b)
+        self.board[0][5].piece = Bishop(color=b)
+        self.board[0][6].piece = Knight(color=b)
+        self.board[0][7].piece = Rook(color=b)
+        self.board[7][0].piece = Rook(color=w)
+        self.board[7][1].piece = Knight(color=w)
+        self.board[7][2].piece = Bishop(color=w)
+        self.board[7][3].piece = Queen(color=w)
+        self.board[7][4].piece = King(color=w)
+        self.board[7][5].piece = Bishop(color=w)
+        self.board[7][6].piece = Knight(color=w)
+        self.board[7][7].piece = Rook(color=w)
 
     @staticmethod
     def check_king(future_board, color, threat):
